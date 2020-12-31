@@ -1,6 +1,7 @@
 package pcurl
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"sort"
@@ -45,6 +46,7 @@ func ParseAndRequest(curl string) (*http.Request, error) {
 func ParseString(curl string) *Curl {
 	c := Curl{}
 	curlSlice, err := GetArgsToken(curl)
+	fmt.Println(curlSlice)
 	c.Err = err
 	return parseSlice(curlSlice, &c)
 }
