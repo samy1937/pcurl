@@ -142,7 +142,7 @@ func TestParseString(t *testing.T) {
 	req, _ := ParseAndRequest(data)
 
 	resp := ""
-	err := gout.New().Debug(false).SetRequest(req).BindBody(&resp).Do()
+	err := gout.New().Debug(true).SetRequest(req).BindBody(&resp).Do()
 
 	fmt.Println(err, "resp.size = ", len(resp))
 }

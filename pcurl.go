@@ -271,7 +271,7 @@ func (c *Curl) Request() (req *http.Request, err error) {
 	req, _ = g.SetURL(url).Request()
 
 	for _, h := range c.Header {
-		hstr := strings.Split(h, ":")
+		hstr := strings.SplitN(h, ":", 2)
 		req.Header.Del(hstr[0])
 		req.Header.Add(hstr[0], hstr[1])
 	}
