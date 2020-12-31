@@ -177,7 +177,7 @@ func (c *Curl) setMethod() {
 		return
 	}
 
-	if len(c.Data) > 0 {
+	if len(c.Data) > 0 || len(c.DataRaw) > 0 {
 		c.Method = "POST"
 		return
 	}
