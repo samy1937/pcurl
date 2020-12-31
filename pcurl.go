@@ -1,13 +1,12 @@
 package pcurl
 
 import (
+	"github.com/guonaihong/gout"
+	"github.com/samy1937/clop"
 	"net/http"
 	"os"
 	"sort"
 	"strings"
-
-	"github.com/guonaihong/clop"
-	"github.com/guonaihong/gout"
 )
 
 // Curl结构体
@@ -168,7 +167,7 @@ func (c *Curl) getURL() string {
 }
 
 func (c *Curl) setMethod() {
-	// 在curl里面-X的选项的优先级别比-G高，所以c.Method为空时才会看c.Get是否设置
+	// 在curl里面-X的选项的优先级别比-G高，所以c.Method为空时才会看c.Get是否设置 a
 	if len(c.Method) == 0 && c.Get {
 		c.Method = "GET"
 		return
