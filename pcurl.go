@@ -1,7 +1,6 @@
 package pcurl
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"sort"
@@ -46,7 +45,7 @@ func ParseAndRequest(curl string) (*http.Request, error) {
 func ParseString(curl string) *Curl {
 	c := Curl{}
 	curlSlice, err := GetArgsToken(curl)
-	fmt.Println(curlSlice)
+
 	c.Err = err
 	return parseSlice(curlSlice, &c)
 }
@@ -230,6 +229,8 @@ func (c *Curl) Request() (req *http.Request, err error) {
 	g := gout.New(hc)
 	g.SetMethod(c.Method) //设置method POST or GET or DELETE
 
+	//fmt.Println(c.Header)
+
 	if c.Compressed {
 		header = append(header, "Accept-Encoding", "deflate, gzip")
 		//header = append(header, "Accept-Encoding", "deflate, gzip")
@@ -267,8 +268,16 @@ func (c *Curl) Request() (req *http.Request, err error) {
 
 	url := c.getURL()
 
-	return g.SetURL(url). //设置url
-				Request() //获取*http.Request
+	req, _ = g.SetURL(url).Request()
+
+	for _, h := range c.Header {
+		hstr := strings.Split(h, ":")
+		req.Header.Del(hstr[0])
+		req.Header.Add(hstr[0], hstr[1])
+	}
+
+	return req, nil
+
 }
 
 func parseSlice(curl []string, c *Curl) *Curl {

@@ -1,6 +1,7 @@
 package pcurl
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -122,4 +123,26 @@ func Test_URL(t *testing.T) {
 		assert.Equal(t, code, 200)
 		assert.Equal(t, urlData.need, s)
 	}
+}
+
+func TestParseString(t *testing.T) {
+	data := `curl 'http://www.ewebeditor.net/ewebeditor/admin/login.asp?action=login' \
+  -H 'Connection: keep-alive' \
+  -H 'Cache-Control: max-age=0' \
+  -H 'Upgrade-Insecure-Requests: 1' \
+  -H 'Origin: http://www.ewebeditor.net' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36' \
+  -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \
+  -H 'Referer: http://www.ewebeditor.net/ewebeditor/admin/login.asp?action=login' \
+  -H 'Accept-Language: zh-CN,zh;q=0.9' \
+  -H 'Cookie: ASPSESSIONIDAATBTDQT=CLIDJDJCEDECGOHNFHBGBCCA; IPCity=%E5%B9%BF%E5%B7%9E' \
+  --data-raw 'h=www.ewebeditor.net&usr=admin&pwd=admin' \
+  --insecure`
+	req, _ := ParseAndRequest(data)
+
+	resp := ""
+	err := gout.New().Debug(false).SetRequest(req).BindBody(&resp).Do()
+
+	fmt.Println(err, "resp.size = ", len(resp))
 }
